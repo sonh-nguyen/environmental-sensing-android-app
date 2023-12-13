@@ -10,16 +10,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -61,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 initChart(lineChartTemp, "Count");
                 HashMap<String, Double> hashMap = (HashMap<String, Double>) snapshot.getValue();
                 System.out.println("[mson] onChildAdded: " + hashMap);
-                mHumidity = hashMap.get("hum");
-                mPressure = hashMap.get("pres");
-                mTemp = hashMap.get("temp");
-                hmiHumid.setText(String.valueOf(mHumidity));
-                hmiPres.setText(String.valueOf(mPressure));
-                hmiTemp.setText(String.valueOf(mTemp));
+                mHumidity = Double.parseDouble(String.format("%.2f", hashMap.get("hum")));
+                mPressure = Double.parseDouble(String.format("%.2f",hashMap.get("pres")));
+                mTemp = Double.parseDouble(String.format("%.2f",hashMap.get("temp")));
+                hmiHumid.setText(String.valueOf(mHumidity) + "%");    /** Temperature - °C */
+                hmiPres.setText(String.valueOf(mPressure) + "kPa");      /** Humidity - % */
+                hmiTemp.setText(String.valueOf(mTemp) + "°C");        /** Pressure - kPa */
                 updateDataToGraph();
             }
 
@@ -74,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 HashMap<String, Double> hashMap = (HashMap<String, Double>) snapshot.getValue();
                 System.out.println("[mson] onChildChanged: " + hashMap);
-                mHumidity = hashMap.get("hum");
-                mPressure =hashMap.get("pres");
-                mTemp = hashMap.get("temp");
-                hmiHumid.setText(String.valueOf(mHumidity));
-                hmiPres.setText(String.valueOf(mPressure));
-                hmiTemp.setText(String.valueOf(mTemp));
+                mHumidity = Double.parseDouble(String.format("%.2f", hashMap.get("hum")));
+                mPressure = Double.parseDouble(String.format("%.2f",hashMap.get("pres")));
+                mTemp = Double.parseDouble(String.format("%.2f",hashMap.get("temp")));
+                hmiHumid.setText(String.valueOf(mHumidity) + "%");    /** Temperature - °C */
+                hmiPres.setText(String.valueOf(mPressure) + "kPa");      /** Humidity - % */
+                hmiTemp.setText(String.valueOf(mTemp) + "°C");        /** Pressure - kPa */
                 updateDataToGraph();
             }
 
@@ -99,12 +101,23 @@ public class MainActivity extends AppCompatActivity {
             }
             public void updateDataToGraph() {
                 runOnUiThread(() -> {
-                    values1.add(new Entry(changeCount, mHumidity != null ? mHumidity.floatValue() : 0f));
-                    values2.add(new Entry(changeCount, mPressure != null ? mPressure.floatValue() : 0f));
-                    values3.add(new Entry(changeCount, mTemp != null ? mTemp.floatValue() : 0f));
+                    // Round the sensor values to 2 decimal places
+                    float roundedHumidity = new BigDecimal(mHumidity != null ? mHumidity : 0.0)
+                            .setScale(2, RoundingMode.HALF_UP).floatValue();
+                    float roundedPressure = new BigDecimal(mPressure != null ? mPressure : 0.0)
+                            .setScale(2, RoundingMode.HALF_UP).floatValue();
+                    float roundedTemperature = new BigDecimal(mTemp != null ? mTemp : 0.0)
+                            .setScale(2, RoundingMode.HALF_UP).floatValue();
+
+                    // Add rounded values to the charts
+                    values1.add(new Entry(changeCount, roundedHumidity));
+                    values2.add(new Entry(changeCount, roundedPressure));
+                    values3.add(new Entry(changeCount, roundedTemperature));
+
                     updateChart(lineChart, Color.BLUE, "Humidity", values1);
                     updateChart(lineChartPres, Color.RED, "Pressure", values2);
                     updateChart(lineChartTemp, Color.GREEN, "Temperature", values3);
+
                     ++changeCount;
                 });
             }
@@ -132,15 +145,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateChart(LineChart lineChart_, int color, String label, ArrayList<Entry> values_) {
         // clear to draw again
-        if (10 <= changeCount) {
+        if (countLimit <= changeCount) {
             values1.clear(); // Clear data
             values2.clear();
             values3.clear();
-//            lineChart.clear();
-//            lineChartPres.clear();
-//            lineChartTemp.clear();
             changeCount = -1;
             return;
+        }
+
+        if (10 < changeCount) {
+            XAxis xAxis = lineChart_.getXAxis();
+            xAxis.setAxisMinimum(changeCount-10);
+            xAxis.setAxisMaximum(changeCount);
         }
 
         // Set the description for X-axis
