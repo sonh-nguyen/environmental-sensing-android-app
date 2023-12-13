@@ -29,22 +29,86 @@
             android:layout_marginTop="35dp"
             android:layout_marginLeft="12dp"
             android:text="ENVIROMENTAL SENSOR"
-            android:textSize="24sp"></TextView>
+            android:textSize="24sp">
+        </TextView>
     </LinearLayout>
 
-
-    <ListView
-        android:id="@+id/listviewsensor"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="192dp"
-        android:layout_marginTop="20dp">
-    </ListView>
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="13dp"
+            android:text="Humidity: "></TextView>
+
+        <TextView
+            android:id="@+id/humidValue"
+            android:layout_width="349dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="13dp"></TextView>
+    </LinearLayout>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
-    </com.github.mikephil.charting.charts.LineChart>
+        android:layout_height="128dp"
+        android:layout_marginTop="10dp"></com.github.mikephil.charting.charts.LineChart>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="40dp"
+            android:text="Pressure: "></TextView>
+
+        <TextView
+            android:id="@+id/presValue"
+            android:layout_width="349dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="13dp"></TextView>
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart_pres"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_marginTop="10dp"></com.github.mikephil.charting.charts.LineChart>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="40dp"
+            android:text="Temperature: "></TextView>
+
+        <TextView
+            android:id="@+id/tempValue"
+            android:layout_width="349dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="13dp"></TextView>
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart_temp"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_marginTop="10dp"></com.github.mikephil.charting.charts.LineChart>
 
 </LinearLayout>

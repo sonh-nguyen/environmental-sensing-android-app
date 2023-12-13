@@ -1,1 +1,0 @@
-# environmental-sensing-android-app
