@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/logo_uet">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="322dp"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp"
-            android:layout_marginLeft="12dp"
-            android:text="ENVIROMENTAL SENSOR"
-            android:textSize="24sp">
-        </TextView>
-    </LinearLayout>
+    <Button
+        android:id="@+id/optionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="App Info"
+        android:layout_marginTop="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,7 +42,7 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart"
         android:layout_width="match_parent"
-        android:layout_height="155dp"></com.github.mikephil.charting.charts.LineChart>
+        android:layout_height="150dp"></com.github.mikephil.charting.charts.LineChart>
 
     <TextView
         android:layout_width="match_parent"
@@ -87,7 +74,7 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_pres"
         android:layout_width="match_parent"
-        android:layout_height="155dp"></com.github.mikephil.charting.charts.LineChart>
+        android:layout_height="150dp"></com.github.mikephil.charting.charts.LineChart>
 
     <TextView
         android:layout_width="match_parent"
@@ -119,7 +106,7 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_temp"
         android:layout_width="match_parent"
-        android:layout_height="155dp"></com.github.mikephil.charting.charts.LineChart>
+        android:layout_height="150dp"></com.github.mikephil.charting.charts.LineChart>
 
     <TextView
         android:layout_width="match_parent"
@@ -128,5 +115,48 @@
         android:textStyle="italic"
         android:textSize="13sp"
         android:text="Temperature value in realtime"></TextView>
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/widgetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/black"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/logo_uet"></ImageView>
+
+            <TextView
+                android:layout_width="322dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="ENVIROMENTAL SENSOR"
+                android:layout_marginLeft="12dp"
+                android:textSize="20sp">
+            </TextView>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateTimeDisplay"
+            android:textSize="18sp"
+            android:gravity="center">
+        </TextView>
+    </LinearLayout>
+
+</FrameLayout>
+
